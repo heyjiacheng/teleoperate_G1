@@ -7,23 +7,6 @@ A guide to teleoperate the Unitree G1 humanoid robot in RPL Lab.
 
 ---
 
-## Hardware Required
-
-![equipment](images/equipment.jpg)
-
-| # | Item | Note |
-|---|------|------|
-| 1 | Host Computer | Ubuntu, runs teleop code |
-| 2 | WiFi Router | connect robot + VR + PC |
-| 3 | VR Headset | Quest or Pico |
-| 4 | VR Controller | For mode switching |
-
-
-
-- Unitree G1 (teleperate in RPL Lab)
-
----
-
 ## Quick Start
 
 Make sure the robot is in motion control mode first — see [Robot Mode Switching](#robot-mode-switching).
@@ -41,6 +24,24 @@ https://<host_ip>:8012/?ws=wss://<host_ip>:8012
 ```
 
 Accept the security warning, then verify hand/controller tracking in the Settings page.
+
+---
+
+## Hardware Required
+<p align="center">
+<img src="images/equipment.jpg" width="50%">
+</p>
+
+| # | Item | Note |
+|---|------|------|
+| 1 | Host Computer | Ubuntu, runs teleop code |
+| 2 | WiFi Router | connect robot + VR + PC |
+| 3 | VR Headset | Quest or Pico |
+| 4 | VR Controller | For mode switching |
+<p align="center">
+<img src="images/unitree.gif" width="50%">
+</p>
+- Unitree G1 (teleperate in RPL Lab)
 
 ---
 
