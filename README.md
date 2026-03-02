@@ -37,7 +37,8 @@ Accept the security warning, then verify hand/controller tracking in the Setting
 | 1 | Host Computer | Ubuntu, runs teleop code |
 | 2 | WiFi Router | connect robot + VR + PC |
 | 3 | VR Headset | Quest or Pico |
-| 4 | VR Controller | For mode switching |
+| 4 | VR Controller | For end-effector tracking |
+
 <p align="center">
 <img src="images/unitree.gif" width="50%">
 </p>
