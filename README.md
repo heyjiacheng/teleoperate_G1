@@ -1,137 +1,117 @@
-# teleoperate_G1
-A guide to teleoperate unitree G1 humanoid robot in RPL Lab.
+# Teleoperate Unitree G1
 
-Official Repository: https://github.com/unitreerobotics/xr_teleoperate
+A guide to teleoperate the Unitree G1 humanoid robot in RPL Lab.
+
+> **Official repo:** https://github.com/unitreerobotics/xr_teleoperate
+> Questions? xujiacheng1016@hotmail.com
+
+---
+
+## Hardware Required
+
+![equipment](images/equipment.JPG)
+
+| # | Item | Note |
+|---|------|------|
+| 1 | Host Computer | Ubuntu, runs teleop code |
+| 2 | WiFi Router | connect robot + VR + PC |
+| 3 | VR Headset | Quest or Pico |
+| 4 | VR Controller | For mode switching |
+
+
+
+- Unitree G1 (teleperate in RPL Lab)
+
+---
 
 ## Quick Start
 
-Power on G1 robot
-
-```bash
-# enter damp mode
-press L2 + press B 
-# enter ready mode
-press L2 + up
-# enter motion mode 
-press R2 + A
-```
+Make sure the robot is in motion control mode first — see [Robot Mode Switching](#robot-mode-switching).
 
 ```bash
 conda activate tv
 cd xr_teleoperate/teleop
-```
-
-```bash
 python teleop_hand_and_arm.py --headless --input-mode controller --record --dex3 --motion
 ```
 
-Open browser in VR, and enter VR mode
-```bash
-https://192.168.123.2:8012/?ws=wss://192.168.123.2:8012
+Then open the VR browser and navigate to (replace `<host_ip>` with your PC's IP from `ifconfig`):
+
+```
+https://<host_ip>:8012/?ws=wss://<host_ip>:8012
 ```
 
-You can teleopare humanoid now :D
+Accept the security warning, then verify hand/controller tracking in the Settings page.
+
+---
 
 ## Overview
 
-This document only explains the steps to teleoperate the real G1 robot using a VR headset. 
+This guide covers teleoperation of the **real G1 robot** via VR headset only.
+For simulation, see the [official repo](https://github.com/unitreerobotics/xr_teleoperate.git).
 
-Teleoprate G1 in simulation is not included. However, you can find it from the [official repo](https://github.com/unitreerobotics/xr_teleoperate.git). Ask me if you meet any problem (xujiacheng1016@hotmail.com).
-
-## Hardware Components
-
-VR Headset (Quest / Vision Pro)
-
-Host Computer (Ubuntu, runs teleop code)
-
-WiFi Router (dedicated for robot + VR)
-
-Unitree G1
+---
 
 ## Network Topology
 
-This image shows how ethernet connect (you can find it from official repo wiki page: Network part)
-
 ![network topology](images/real_machine_teleoprate.jpg)
 
-STA means wireless connect, LAN means you have to use wire. Also, make sure no firewall blocking.
+- **STA** = wireless connection
+- **LAN** = wired connection (required for G1 ↔ router)
 
-## Wifi Router Setup
+All devices must be on the same subnet (e.g., `192.168.123.x`). Ensure no firewall is blocking traffic.
 
-Keep all device under same subnet (e.g., 192.168.123.xxx). You can do this by login into the wifi router home page.
+### Router Setup
 
-(Optional) To reduce the teleoprate latency, you can do following steps: use device of wifi 6 or above. Increase Wi-Fi channel bandwidth. Cancle Wi-Fi channel auto select, manually select one from 149-165. Disable 2.4 GHz network. After all, you can try to ping unitree robot to see latency, it should under 2ms.
+Log into your router's admin page and keep all devices on the same subnet.
 
+**Optional — reduce latency:**
+- Use Wi-Fi 6 or above
+- Increase channel bandwidth
+- Manually set channel to 149–165 (disable auto-select)
+- Disable 2.4 GHz network
+- Verify: `ping <robot_ip>` should be under 2 ms
 
-## Operational Order (Critical)
+---
 
-Startup Sequence:
+## Startup Sequence (Follow in Order)
 
-- Power on G1
+1. Power on G1
+2. Connect G1 to router via **LAN**
+3. Connect host computer to same WiFi (`192.168.123.*`)
+4. Connect VR headset to same WiFi
+5. SSH into robot to verify connection:
+   ```bash
+   ssh unitree@192.168.123.164
+   ```
+6. *(Optional)* Start image server
+7. Switch robot to **motion control mode** (see below)
+8. Start teleoperation script on host
+9. Open VR browser and begin control
 
-- Connect G1 to WiFi router (use LAN)
+---
 
-- Connect Host to same WiFi (same subnet: 192.168.123.*)
+## Robot Mode Switching
 
-- Connect VR headset to same WiFi (default should be same subnet)
+Use the Unitree remote controller to switch modes after powering on:
 
-- SSH into robot PC2 (just to test connection)
-
-- (Optinal) Start image server
-
-- Put robot into motion control mode (remote controller)
-
-- Start teleoperation script on host
-
-- Enter VR browser page and begin control
-
-## Robot Motion Mode Switching
-
-Teleoperation works if robot is in motion control mode.
-
-Using the Unitree remote controller:
-
-```bash
-# power on G1 first, you will hear zero torque mode
-# enter damp mode
-press L2 + press B 
-# enter ready mode
-press L2 + up
-# enter motion mode 
-press R2 + A
+```
+L2 + B        → Damp mode
+L2 + ↑        → Ready mode
+R2 + A        → Motion control mode  ← required for teleop
 ```
 
-## VR Access
-
-Remember to connect VR to same Wi-Fi.
-
-After teleop script starts on host:
-
-Open VR browser and access (replace host ip by check ifconfig in your PC):
-```bash
-https://<host_ip>:8012/?ws=wss://<host_ip>:8012
-```
-Accept warning (allow VR control)
-
-Verify:
-
-Hand/controller tracking works (in Setting page)
+---
 
 ## Safety
 
-If abnormal motion:
+To stop the robot immediately:
 
-press q in teleoperate program
+- **In terminal:** press `q`
+- **Via remote controller:** long-press `L2 + B`
 
-OR
+---
 
-using unitree romote controller:
-```bash
-long press L2 + B
-```
+## Known Issues
 
-## Pitfalls (I’ve encountered)
-
-- When installing environment, need to fix numpy == 1.26.4  params_proto==2.13.2  rerun-sdk==0.16.1
-
-- To successful run simulation mode, need to cancel binocular in cam_config_server.yaml
+- **Environment setup:** pin `numpy==1.26.4`, `params_proto==2.13.2`, `rerun-sdk==0.16.1`
+- **Simulation mode:** disable binocular camera in `cam_config_server.yaml`
