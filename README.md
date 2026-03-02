@@ -9,7 +9,7 @@ A guide to teleoperate the Unitree G1 humanoid robot in RPL Lab.
 
 ## Hardware Required
 
-![equipment](images/equipment.JPG)
+![equipment](images/equipment.jpg)
 
 | # | Item | Note |
 |---|------|------|
