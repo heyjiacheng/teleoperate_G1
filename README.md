@@ -14,7 +14,7 @@ Make sure the robot is in motion control mode first — see [Robot Mode Switchin
 ```bash
 conda activate tv
 cd xr_teleoperate/teleop
-python teleop_hand_and_arm.py --headless --input-mode controller --record --dex3 --motion
+python teleop_hand_and_arm.py --headless --input-mode controller --record --ee dex3 --motion
 ```
 
 Then open the VR browser and navigate to (replace `<host_ip>` with your PC's IP from `ifconfig`):
@@ -84,6 +84,7 @@ Log into your router's admin page and keep all devices on the same subnet.
 5. SSH into robot to verify connection:
    ```bash
    ssh unitree@192.168.123.164
+   # password: 123
    ```
 6. *(Optional)* Start image server
 7. Switch robot to **motion control mode** (see below)
